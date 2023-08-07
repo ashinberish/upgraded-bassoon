@@ -1,37 +1,61 @@
-import { Switch, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import Loader from './components/loader';
-import GlobalStyle from './components/styles/GlobalStyle';
-import Navbar from './components/navbar';
-import Home from './pages/home';
-import About from './pages/about';
-import Contact from './pages/contact';
-import React from 'react';
-
+import { AnimatePresence } from "framer-motion";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Loader from "./components/loader";
+import Navbar from "./components/navbar";
+import GlobalStyle from "./components/styles/GlobalStyle";
+import About from "./pages/about";
+import Contact from "./pages/contact";
+import Home from "./pages/home";
 
 function App() {
-  console.log('%c Built by Ashin Berish','font-weight:bold;background-color:#000000; color: #fff; padding: 20px 20px ')
-  const location = useLocation();
+  useEffect(() => {
+    console.log(
+      "%c Built by Ashin Berish",
+      "font-weight:bold;background-color:#000000; color: #fff; padding: 20px 20px ",
+    );
+  }, []);
+
   return (
     <div>
       <GlobalStyle />
       <Loader />
-      <Navbar />
-      <AnimatePresence exitBeforeEnter initial={false}>
-      <Switch location={location} key={location.pathname}>
-        <Route path="/" exact>
-          <Home />    
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        </Switch>
+
+      <AnimatePresence mode="wait" initial={false}>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              exact
+              element={
+                <Navbar>
+                  <Home />
+                </Navbar>
+              }
+            />
+            <Route
+              path="/about"
+              exact
+              element={
+                <Navbar>
+                  <About />
+                </Navbar>
+              }
+            />
+            <Route
+              path="/contact"
+              exact
+              element={
+                <Navbar>
+                  <Contact />
+                </Navbar>
+              }
+            />
+          </Routes>
+        </Router>
       </AnimatePresence>
     </div>
-    )
+  );
 }
 
 export default App;
